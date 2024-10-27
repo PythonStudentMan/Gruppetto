@@ -28,9 +28,14 @@ class Post(db.Model):
             except IntegrityError:
                 count += 1
                 self.title_slug = f'{slugify(self.title)}-{count}'
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
-    def public_url(self):
-        return url_for('show_post', slug=self.title_slug)
+    @staticmethod
+    def get_by_id(id):
+        return Post.query.get(id)
 
     @staticmethod
     def get_by_slug(slug):

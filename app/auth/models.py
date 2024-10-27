@@ -30,9 +30,19 @@ class User(db.Model, UserMixin):
         if not self.id:
             db.session.add(self)
         db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+    
+    @staticmethod
+    def get_all():
+        return User.query.all()
+    
     @staticmethod
     def get_by_id(id):
         return User.query.get(id)
+    
     @staticmethod
     def get_by_email(email):
         return User.query.filter_by(email=email).first()
