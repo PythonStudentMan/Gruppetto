@@ -1,0 +1,284 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+    {% if form.NombreCompleto.data %}
+        {{ form.NombreCompleto.data }}
+    {% else %}
+        Nuevo Miembro
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.Nombre.label }}
+            {{ form.Nombre(size=100) }}<br>
+            {% for error in form.Nombre.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Apellidos.label }}
+            {{ form.Apellidos(size=100) }}<br>
+            {% for error in form.Apellidos.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Domicilio.label }}
+            {{ form.Domicilio(size=200) }}<br>
+            {% for error in form.Domicilio.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.CodigoPostal.label }}
+            {{ form.CodigoPostal(size=5) }}<br>
+            {% for error in form.CodigoPostal.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Poblacion.label }}
+            {{ form.Poblacion(size=60) }}<br>
+            {% for error in form.Poblacion.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Provincia.label }}
+            {{ form.Provincia(size=60) }}<br>
+            {% for error in form.Provincia.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Telefono.label }}
+            {{ form.Telefono(size=11) }}<br>
+            {% for error in form.Telefono.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.OtroTelefono.label }}
+            {{ form.OtroTelefono(size=11) }}<br>
+            {% for error in form.OtroTelefono.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.CorreoElectronico.label }}
+            {{ form.CorreoElectronico(size=256) }}<br>
+            {% for error in form.CorreoElectronico.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.NumeroSocio.label }}
+            {{ form.NumeroSocio(size=6) }}<br>
+            {% for error in form.NumeroSocio.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Sexo.label }}
+            {{ form.Sexo }}<br>
+            {% for error in form.Sexo.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.FechaNacimiento.label }}
+            {{ form.FechaNacimiento }}<br>
+            {% for error in form.FechaNacimiento.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.FechaAlta.label }}
+            {{ form.FechaAlta }}<br>
+            {% for error in form.FechaAlta.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.FechaBaja.label }}
+            {{ form.FechaBaja }}<br>
+            {% for error in form.FechaBaja.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.MotivoBaja.label }}
+            {{ form.MotivoBaja(size=256) }}<br>
+            {% for error in form.MotivoBaja.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.ImporteCuota.label }}
+            {{ form.ImporteCuota }}<br>
+            {% for error in form.ImporteCuota.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.ImporteRecibo.label }}
+            {{ form.ImporteRecibo }}<br>
+            {% for error in form.ImporteRecibo.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.PorcentajeReduccion.label }}
+            {{ form.PorcentajeReduccion }}<br>
+            {% for error in form.PorcentajeReduccion.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.MotivoReduccion.label }}
+            {{ form.MotivoReduccion(size=256) }}<br>
+            {% for error in form.MotivoReduccion.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.IBANBancario.label }}
+            {{ form.IBANBancario }}<br>
+            {% for error in form.IBANBancario.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.AsisteBandaEscuela.label }}
+            {{ form.AsisteBandaEscuela }}<br>
+            {% for error in form.AsisteBandaEscuela.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.AsisteBandaTitular.label }}
+            {{ form.AsisteBandaTitular }}<br>
+            {% for error in form.AsisteBandaTitular.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.AsisteLenguajeMusical.label }}
+            {{ form.AsisteLenguajeMusical }}<br>
+            {% for error in form.AsisteLenguajeMusical.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.EsAlumnoEscuela.label }}
+            {{ form.EsAlumnoEscuela }}<br>
+            {% for error in form.EsAlumnoEscuela.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.EsMayorEdad.label }}
+            {{ form.EsMayorEdad }}<br>
+            {% for error in form.EsMayorEdad.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.EsSocio.label }}
+            {{ form.EsSocio }}<br>
+            {% for error in form.EsSocio.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.EstaFederado.label }}
+            {{ form.EstaFederado }}<br>
+            {% for error in form.EstaFederado.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.EsMusicoProfesional.label }}
+            {{ form.EsMusicoProfesional }}<br>
+            {% for error in form.EsMusicoProfesional.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.EstudiaConservatorio.label }}
+            {{ form.EstudiaConservatorio }}<br>
+            {% for error in form.EstudiaConservatorio.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.Instrumentos.label }}
+            {{ form.Instrmentos }}<br>
+            {% for error in form.Instrumentos.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.InstrumentoPrincipal.label }}
+            {{ form.InstrumentoPrincipal }}<br>
+            {% for error in form.InstrumentoPrincipal.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.InstrumentoBandaEscuela.label }}
+            {{ form.InstrumentoBandaEscuela }}<br>
+            {% for error in form.InstrumentoBandaEscuela.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.InstrumentoBandaTitular.label }}
+            {{ form.InstrumentoBandaTitular }}<br>
+            {% for error in form.InstrumentoBandaTitular.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.AsistenciasEventos.label }}
+            {{ form.AsistenciasEventos }}<br>
+            {% for error in form.AsistenciasEventos.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.FaltasEventos.label }}
+            {{ form.FaltasEventos }}<br>
+            {% for error in form.FaltasEventos.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.LogrosActuales.label }}
+            {{ form.LogrosActuales }}<br>
+            {% for error in form.LogrosActuales.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            <!--<label for="postImage">Imagen de Cabecera:</label>
+            <input type="file" id="postImage" name="post_image" accept="image/png, image/jpeg">-->
+            {{ form.Foto.label }}
+            {{ form.Foto }}<br>
+            {% for error in form.Foto.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+    {% if post %}
+    <form action="{{ url_for('admin.delete_post', post_id=post.id) }}" method="post" novalidate>
+        <input type="submit" value="Eliminar" />
+    </form>
+    {% endif %}
+{% endblock %}

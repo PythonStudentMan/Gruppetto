@@ -22,26 +22,26 @@ def show_signup_form():
     form = SignupForm()
     error = None
     if form.validate_on_submit():
-        name = form.name.data
-        email = form.email.data
-        password = form.password.data
+        NombreUsuario = form.NombreUsuario.data
+        Email = form.Email.data
+        Password = form.Password.data
         # Comprobamos que no existe ya un usuario con este email
-        user = Usuario.get_by_email(email)
-        if user is not None:
-            error = f'El email {email} ya está siendo utilizado por otro usuario'
+        usuario = Usuario.get_by_email(Email)
+        if usuario is not None:
+            error = f'El email {Email} ya está siendo utilizado por otro usuario'
         else:
             # Creamos el usuario y lo guardamos
-            user = Usuario(name=name, email=email)
-            user.set_password(password)
-            user.save()
+            usuario = Usuario(NombreUsuario=NombreUsuario, Email=Email)
+            usuario.set_password(Password)
+            usuario.save()
             # Enviamos un email de bienvenida
             send_email(subject='Bienvenid@ a Gruppetto',
                        sender=current_app.config['DONT_REPLY_FROM_EMAIL'],
-                       recipients=[email, ],
-                       text_body=f'Hola {name}, bienvenid@ a la aplicación Gruppetto',
-                       html_body=f'<p>Hola <strong>{name}</strong>, bienvenid@ a la aplicación Gruppetto</p>')
+                       recipients=[Email, ],
+                       text_body=f'Hola {NombreUsuario}, bienvenid@ a la aplicación Gruppetto',
+                       html_body=f'<p>Hola <strong>{NombreUsuario}</strong>, bienvenid@ a la aplicación Gruppetto</p>')
             # Dejamos al usuario logueado
-            login_user(user, remember=True)
+            login_user(usuario, remember=True)
             next = request.args.get('next', None)
             if not next or urlsplit(next).netloc != '':
                 next = url_for('public.index')
@@ -54,9 +54,9 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = Usuario.get_by_email(form.email.data)
-        if user is not None and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
+        usuario = Usuario.get_by_email(form.Email.data)
+        if usuario is not None and usuario.check_password(form.Password.data):
+            login_user(usuario, remember=form.remember_me.data)
             next_page = request.args.get('next')
             if not next_page or urlsplit(next_page).netloc != '':
                 next_page = url_for('public.index')

@@ -1,0 +1,50 @@
+{% extends "base_template.html" %}
+
+{% block title %}{{ miembro.NombreCompleto }}{% endblock %}
+
+{% block content %}
+    <h1>{{ miembro.NombreCompleto }}</h1>
+    {% if miembro.Foto %}
+        <div>
+            <img src="{{ url_for('media_miembros', filename=miembro.Foto) }}" />
+        </div>
+    {% endif %}
+    {{ miembro.Nombre }}
+    {{ miembro.Apellidos }}
+    {{ miembro.Domicilio }}
+    {{ miembro.CodigoPostal }}
+    {{ miembro.Poblacion }}
+    {{ miembro.Provincia }}
+    {{ miembro.Telefono }}
+    {{ miembro.OtroTelefono }}
+    {{ miembro.CorreoElectronico }}
+    {{ miembro.NumeroSocio }}
+    {{ miembro.Sexo }}
+    {{ miembro.FechaNacimiento }}
+    {{ miembro.FechaAlta }}
+    {{ miembro.FechaBaja }}
+    {{ miembro.MotivoBaja.label }}
+    {{ miembro.ImporteCuota }}
+    {{ miembro.ImporteRecibo }}
+    {{ miembro.PorcentajeReduccion }}
+    {{ miembro.MotivoReduccion }}
+    {{ miembro.IBANBancario }}
+    {{ miembro.AsisteBandaEscuela }}
+    {{ miembro.AsisteBandaTitular }}
+    {{ miembro.AsisteLenguajeMusical }}
+    {{ miembro.EsAlumnoEscuela }}
+    {{ miembro.EsMayorEdad }}
+    {{ miembro.EsSocio }}
+    {{ miembro.EstaFederado }}
+    {{ miembro.EsMusicoProfesional }}
+    {{ miembro.EstudiaConservatorio }}
+    {{ miembro.Instrumentos }}
+    {{ miembro.InstrumentoPrincipal }}
+    {{ miembro.InstrumentoBandaEscuela }}
+    {{ miembro.InstrumentoBandaTitular }}
+    {{ miembro.AsistenciasEventos }}
+    {{ miembro.FaltasEventos }}
+    {{ miembro.LogrosActuales }}
+    
+
+{% endblock %}

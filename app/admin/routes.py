@@ -7,13 +7,13 @@ from flask_login import login_required, current_user
 
 from werkzeug.utils import secure_filename
 
-from app.models import Post
+from app.models import Miembro
 
 from app.auth.models import Usuario
 from app.auth.decorators import admin_required
 
 from . import admin_bp
-from .forms import PostForm, UserAdminForm
+from .forms import MiembroForm, UserAdminForm
 
 logger = logging.getLogger(__name__)
 
@@ -23,80 +23,82 @@ logger = logging.getLogger(__name__)
 def index():
     return render_template("admin/index.html")
 
-@admin_bp.route("/admin/posts/")
+@admin_bp.route("/admin/miembros/")
 @login_required
 @admin_required
-def list_posts():
-    posts = Post.get_all()
-    return render_template("admin/posts.html", posts=posts)
+def list_miembros():
+    miembros = Miembro.get_all()
+    return render_template("admin/miembros.html", miembros=miembros)
 
-@admin_bp.route("/admin/post/", methods=['GET', 'POST'])
+@admin_bp.route("/admin/miembro/", methods=['GET', 'POST'])
 @login_required
 @admin_required
-def post_form():
-    # Crea un nuevo post
-    form = PostForm()
+def miembro_form():
+    # Da de alta un nuevo miembro
+    form = MiembroForm()
     if form.validate_on_submit():
-        title = form.title.data
-        content = form.content.data
-        file = form.post_image.data
+        Nombre = form.Nombre.data
+        Apellidos = form.Apellidos.data
+        CorreoElectronico=form.CorreoElectronico.data
+        Nombrecompleto=Nombre + " " + Apellidos
+        file = form.Foto.data
         image_name = None
         # Comprueba si la petición contiene la parte del fichero
         if file:
             image_name = secure_filename(file.filename)
-            images_dir = current_app.config['POSTS_IMAGES_DIR']
+            images_dir = current_app.config['FOTOS_MIEMBROS_DIR']
             os.makedirs(images_dir, exist_ok=True)
             file_path = os.path.join(images_dir, image_name)
             file.save(file_path)
-        post = Post(user_id=current_user.id, title=title, content=content)
-        post.image_name = image_name
-        post.save()
-        logger.info(f'Guardando nuevo post {title}')
-        return redirect(url_for('admin.list_posts'))
-    return render_template("admin/post_form.html", form=form)
+        miembro = Miembro(Apellidos=Apellidos, Nombre=Nombre, CorreoElectronico=CorreoElectronico, NombreCompleto=Nombrecompleto)
+        miembro.Foto = image_name
+        miembro.save()
+        logger.info(f'Dando de alta al nuevo Miembro de la agrupación {miembro.NombreCompleto}')
+        return redirect(url_for('admin.list_miembros'))
+    return render_template("admin/miembro_form.html", form=form)
 
-@admin_bp.route("/admin/post/<int:post_id>/", methods=['GET', 'POST'])
+@admin_bp.route("/admin/miembro/<int:miembro_id>/", methods=['GET', 'POST'])
 @login_required
 @admin_required
-def update_post_form(post_id):
-    # Actualiza un post existente
-    post = Post.get_by_id(post_id)
-    if post is None:
-        logger.info(f'El post {post_id} no existe')
+def update_miembro_form(miembro_id):
+    # Actualiza los datos de un miembro de la agrupación
+    miembro = Miembro.get_by_id(miembro_id)
+    if miembro is None:
+        logger.info(f'El Miembro {miembro_id} no existe')
         abort(404)
     # Creamos un formulario con los datos del registro
-    form = PostForm(obj=post)
+    form = MiembroForm(obj=miembro)
     if form.validate_on_submit:
-        # Actualizamos los campos del post existente
-        post.title = form.title.data
-        post.content = form.content.data
-        file = form.post_image.data
+        # Actualizamos los campos del miembro existente
+        miembro.Nombre = form.Nombre.data
+        miembro.Apellidos = form.Apellidos.data
+        file = form.Foto.data
         image_name = None
         # Comprueba si la petición contiene la parte del fichero
         if file:
             image_name = secure_filename(file.filename)
-            images_dir = current_app.config['POSTS_IMAGES_DIR']
+            images_dir = current_app.config['FOTOS_MIEMBROS_DIR']
             os.makedirs(images_dir, exist_ok=True)
             file_path = os.path.join(images_dir, image_name)
             file.save(file_path)
-        post.image_name = image_name
-        post.save()
-        logger.info(f'Guardando el post {post_id}')
-        return redirect(url_for('admin.list_posts'))
-    return render_template("admin/post_form.html", form=form, post=post)
+        miembro.Foto = image_name
+        miembro.save()
+        logger.info(f'Guardando los datos del miembro de la agrupación {miembro_id}')
+        return redirect(url_for('admin.list_miembro'))
+    return render_template("admin/miembro_form.html", form=form, miembro=miembro)
 
-@admin_bp.route("/admin/post/delete/<int:post_id>/", methods=['POST', ])
+@admin_bp.route("/admin/miembro/delete/<int:miembro_id>/", methods=['POST', ])
 @login_required
 @admin_required
-def delete_post(post_id):
-    logger.info(f'Se va a eliminar el post {post_id}')
-    post = Post.get_by_id(post_id)
-    if post is None:
-        logger.info(f'El post {post_id} no existe')
+def delete_miembro(miembro_id):
+    logger.info(f'Se va a eliminar el miembro {miembro_id}')
+    miembro = Miembro.get_by_id(miembro_id)
+    if miembro is None:
+        logger.info(f'El miembro {miembro_id} no existe')
         abort(404)
-    post.delete()
-    logger.info(f'El post {post_id} ha sido eliminado')
-    return redirect(url_for('admin.list_post'))
+    miembro.delete()
+    logger.info(f'El miembro {miembro_id} ha sido eliminado')
+    return redirect(url_for('admin.list_miembro'))
 
 @admin_bp.route("/admin/users/")
 @login_required

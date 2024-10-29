@@ -1,13 +1,13 @@
 {% extends "base_template.html" %}
 
-{% block title %}Tutorial Flask: Miniblog{% endblock %}
+{% block title %}Gruppetto{% endblock %}
 
 {% block content %}
     <ul>
-    {% for post in post_pagination.items %}
+    {% for miembro in miembro_pagination.items %}
         <li>
-            <a href="{{ url_for('public.show_post', slug=post.title_slug) }}">
-                {{ post.title }}<span class="postCreated">{{ post.created|datetime }}</span>
+            <a href="{{ url_for('public.muestra_miembro', NombreCompleto=miembro.NombreCompleto) }}">
+                {{ miembro.NombreCompleto }}
             </a>
             </li>
     {% else %}
@@ -16,9 +16,9 @@
     </ul>
 
     <div class=pagination>
-        {%- for page in post_pagination.iter_pages() %}
+        {%- for page in miembro_pagination.iter_pages() %}
             {% if page %}
-                {% if page != post_pagination.page %}
+                {% if page != miembro_pagination.page %}
                     <a href="{{ url_for('public.index', page=page) }}">{{ page }}</a>
                 {% else %}
                     <strong>{{ page }}</strong>

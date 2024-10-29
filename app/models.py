@@ -114,6 +114,8 @@ class Instrumento(db.Model):
                             'Cuerda Percutida', 'Electrónicos', 'Electroacústicos'))
 
     # Relación inversa para acceder a los miembros que interpretan cada instrumento
+    #miembros = db.relationship('Miembro', secondary=miembro_instrumento, back_populates='instrumentos',foreign_keys=[miembro_instrumento.c.miembroId, miembro_instrumento.c.instrumentoId])
+
     miembros = db.relationship('Miembro', secondary=miembro_instrumento, back_populates='instrumentos')
 
     def __init__(self, nombre, familia):
@@ -147,6 +149,7 @@ class Miembro(db.Model):
     __tablename__ = 'miembros'
 
     id = db.Column(db.Integer, primary_key=True)
+    Foto = db.Column(db.String(256))
     Apellidos = db.Column(db.String(100), nullable=False)
     Nombre = db.Column(db.String(100), nullable=False)
     AsisteBandaEscuela = db.Column(db.Boolean)
@@ -167,24 +170,31 @@ class Miembro(db.Model):
     IBANBancario = db.Column(db.String(24))
     ImporteCuota = db.Column(db.Numeric(4, 2))
     ImporteRecibo = db.Column(db.Numeric(4, 2))
-    InstrumentoId = db.Column(db.Integer, db.ForeignKey('instrumentos.id'))
-    Instrumento = db.relationship('Instrumento', backref='miembros')
     MotivoBaja = db.Column(db.String(256))
-    MotivoReduccioCuota = db.Column(db.String(256))
+    MotivoReduccion = db.Column(db.String(256))
     NombreCompleto = db.Column(db.String(256), nullable=False)
     NumeroSocio = db.Column(db.String(6))
     OtroTelefono = db.Column(db.String(11))
     # Relación para accedor a la lista de instrumentos que interpreta el miembro
-    OtrosInstrumentos = db.relationship('Otros instrumentos', secondary=miembro_instrumento, back_populates='miembros')
+    instrumentos = db.relationship('Instrumento', secondary=miembro_instrumento, back_populates='miembros')
+    
+    # Instrumento principal (el que toca)
+    instrumento_principal_id = db.Column(db.Integer, db.ForeignKey('instrumentos.id'))
+    instrumento_principal = db.relationship('Instrumento', foreign_keys=[instrumento_principal_id], backref='principal_de_miembros')
+
+    # Instrumento que toca en la banda escuela
+    instrumento_banda_escuela_id = db.Column(db.Integer, db.ForeignKey('instrumentos.id'))
+    instrumento_banda_escuela = db.relationship('Instrumento', foreign_keys=[instrumento_banda_escuela_id], backref='banda_escuela_de_miembros')
+
+    # Instrumento que toca en la banda titular
+    instrumento_banda_titular_id = db.Column(db.Integer, db.ForeignKey('instrumentos.id'))
+    instrumento_banda_titular = db.relationship('Instrumento', foreign_keys=[instrumento_banda_titular_id], backref='banda_titular_de_miembros')
+
     Poblacion = db.Column(db.String(60))
     Provincia = db.Column(db.String(60))
     PorcentajeReduccion = db.Column(db.Numeric(3,2))
     Telefono = db.Column(db.String(11))
     Sexo = db.Column(db.Enum('Masculino', 'Femenino', 'Prefiero no indicarlo'))
-    InstrumentoBandaEscualaId = db.Column(db.Integer, db.ForeignKey('instrumentos.id'))
-    InstrumentoBandaEscuela = db.relationship('Instrumento Banda Escuela', backref='miembros')
-    InstrumentoBandaTitularId = db.Column(db.Integer, db.ForeignKey('instrumentos.id'))
-    InstrumentoBandaTitular = db.relationship('Instrumento Banda Titular', backref='miembros')
     AsistenciasEventos = db.Column(db.Integer)
     FaltasEventos = db.Column(db.Integer)
     LogrosActuales = db.Column(db.Integer)
