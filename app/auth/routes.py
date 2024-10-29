@@ -1,12 +1,19 @@
-from flask import render_template, redirect, url_for, request
+# app/auth/routes.py
+
+import logging
+
+from flask import render_template, redirect, url_for, request, current_app
 from flask_login import current_user, login_user, logout_user
 from urllib.parse import urlsplit
 
 from app import login_manager
+from app.common.mail import send_email
 
 from . import auth_bp
 from .forms import SignupForm, LoginForm
 from .models import User
+
+logger = logging.getLogger(__name__)
 
 @auth_bp.route("/signup/", methods=['GET', 'POST'])
 def show_signup_form():
@@ -27,6 +34,12 @@ def show_signup_form():
             user = User(name=name, email=email)
             user.set_password(password)
             user.save()
+            # Enviamos un email de bienvenida
+            send_email(subject='Bienvenid@ a Gruppetto',
+                       sender=current_app.config['DONT_REPLY_FROM_EMAIL'],
+                       recipients=[email, ],
+                       text_body=f'Hola {name}, bienvenid@ a la aplicación Gruppetto',
+                       html_body=f'<p>Hola <strong>{name}</strong>, bienvenid@ a la aplicación Gruppetto</p>')
             # Dejamos al usuario logueado
             login_user(user, remember=True)
             next = request.args.get('next', None)

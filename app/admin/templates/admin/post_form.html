@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" novalidate>
+    <form action="" method="post" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         <div>
             {{ form.title.label }}
@@ -29,6 +29,15 @@
             {{ form.content.label }}
             {{ form.content }}<br>
             {% for error in form.content.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            <!--<label for="postImage">Imagen de Cabecera:</label>
+            <input type="file" id="postImage" name="post_image" accept="image/png, image/jpeg">-->
+            {{ form.post_image.label }}
+            {{ form.post_image }}<br>
+            {% for error in form.post_image.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>

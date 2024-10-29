@@ -6,11 +6,17 @@ from flask import Flask, render_template
 
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_mail import Mail
 
 from logging.handlers import SMTPHandler
 
+from app.common.filters import format_datetime
+
 login_manager = LoginManager()
 db = SQLAlchemy()
+migrate = Migrate()
+mail = Mail()
 
 def create_app(settings_module='config.dev'):
 
@@ -31,6 +37,11 @@ def create_app(settings_module='config.dev'):
     login_manager.login_view = 'auth.login'
 
     db.init_app(app)
+    migrate.init_app(app, db)
+    mail.init_app(app)
+
+    # Registro de los Filtros
+    register_filters(app)
 
     # Registramos los BluePrints
     from .auth import auth_bp
@@ -46,6 +57,10 @@ def create_app(settings_module='config.dev'):
     register_error_handlers(app)
 
     return app
+
+# Función para realizar filtros en formato de fecha personalizado
+def register_filters(app):
+    app.jinja_env.filters['datetime'] = format_datetime
 
 # Función para registrar los manejadores de errores de la aplicación
 def register_error_handlers(app):
